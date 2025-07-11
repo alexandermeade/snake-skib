@@ -26,6 +26,12 @@ To run and compile this, you'll need to:
 1. Visit the [Skib Lang repository](https://github.com/alexandermeade/Skib-Lang).
 2. Follow the instructions there on how to build and run Skib Lang.
 
+then run the command below in the dir with your compiled skib code.
+Note: it will look for main.lua as the compiled target for love so name your entry point file main so it compiles to main.
+```
+love <dir>
+```
+
 ---
 
 Enjoy!
