@@ -1,0 +1,13 @@
+
+skibidi  len(list) {
+    ohio "_len = #list"
+    lowtaperfade _len
+}
+
+skibidi  map_enumerate(list, fn) {
+    ohio "
+        for i, e in ipairs(list) do 
+            fn(i, e)
+        end
+    "
+}

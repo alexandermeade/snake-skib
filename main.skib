@@ -1,0 +1,122 @@
+kaicenat "./utils.skib"
+
+rizz snake = [
+    body = [[x = 10, y = 10]],
+    dir = "right",
+    grow = false
+]
+
+rizz gridSize = 20
+rizz cellSize = 20
+rizz food = [x = 15, y = 10]
+rizz gameOver = false
+rizz timer = 0
+
+ohio "speed = 0.15"
+
+skibidi mrworldwide love.load() {
+    love.window.setTitle("Snake in Lua!")
+    love.window.setMode(gridSize * cellSize, gridSize * cellSize)
+}
+
+skibidi mrworldwide love.update(dt) {
+    sus !gameOver {
+        timer = timer + dt
+        sus timer >= speed {
+            timer = 0
+            moveSnake()
+            checkCollision()
+        }
+    }
+}
+
+skibidi mrworldwide moveSnake() {
+    rizz head = snake.body[1]
+    rizz newHead = [x = head.x, y = head.y]
+
+    newHead.x = newHead.x + ((snake.dir == "right" && 1) || (snake.dir == "left" && -1) || 0)
+    newHead.y = newHead.y + ((snake.dir == "down" && 1) || (snake.dir == "up" && -1) || 0)
+
+
+    table.insert(snake.body, 1, newHead)
+
+    sus newHead.x == food.x && newHead.y == food.y {
+        snake.grow = true
+        spawnFood()
+    }
+
+    sus !snake.grow {
+        table.remove(snake.body)
+    }
+    snake.grow = false
+}
+
+skibidi mrworldwide checkCollision() {
+    rizz head = snake.body[1]
+    sus head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize {
+        gameOver = true
+    }
+    rizz i = 2
+
+    gyatt {
+        sus i >= len(snake.body) caseoh
+            
+        rizz part = snake.body[i]
+        sus part.x == head.x && part.y == head.y gameOver = true
+
+        i = i + 1    
+    }
+}
+
+skibidi  mrworldwide spawnFood() {
+    rizz valid = false
+    gyatt {
+        sus valid  caseoh
+
+        food.x = love.math.random(0, gridSize - 1)
+        food.y = love.math.random(0, gridSize - 1)
+        valid = true
+        map_enumerate(snake.body, skibidi _(i, part) {
+            sus part.x == food.x && part.y == food.y {
+                valid = false
+            }
+        }) 
+    }
+}
+
+skibidi mrworldwide love.draw() {
+
+    map_enumerate(snake.body, skibidi _(i, part) {
+        love.graphics.setColor(0, 1, 0)
+        love.graphics.rectangle("fill", part.x * cellSize, part.y * cellSize, cellSize - 1, cellSize - 1)
+    })
+
+    love.graphics.setColor(1, 0, 0)
+    love.graphics.rectangle("fill", food.x * cellSize, food.y * cellSize, cellSize - 1, cellSize - 1)
+
+    sus gameOver {
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.printf("Game Over! Press R to restart", 0, (gridSize * cellSize)/2 - 10, gridSize * cellSize, "center")
+    }
+}
+
+skibidi mrworldwide love.keypressed(key) {
+    sus key == "up" && snake.dir != "down"  snake.dir = "up"
+    sus key == "down" && snake.dir != "up"  snake.dir = "down"
+    sus key == "left" && snake.dir != "right" snake.dir = "left"
+    sus key == "right" && snake.dir != "left" snake.dir = "right"
+    sus key == "r" && gameOver restartGame()
+    
+}
+
+skibidi  mrworldwide restartGame() {
+    snake = [
+        body = [[x = 10, y = 10]],
+        dir = "right",
+        grow = false
+    ]
+    food = [x = 15, y = 10]
+    gameOver = false
+    timer = 0
+}
+
