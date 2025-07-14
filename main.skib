@@ -15,7 +15,7 @@ rizz timer = 0
 ohio "speed = 0.15"
 
 skibidi mrworldwide love.load() {
-    love.window.setTitle("Snake in Lua!")
+    love.window.setTitle("Snake in Skib!")
     love.window.setMode(gridSize * cellSize, gridSize * cellSize)
 }
 
